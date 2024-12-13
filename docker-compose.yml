@@ -1,0 +1,27 @@
+# version: '3.9'
+
+services:
+  web:
+    build: .
+    container_name: hotel_scraper_web
+    command: ["scrapy", "crawl", "hotels"]
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://myuser:mypassword@db:5432/hotel_db
+
+  db:
+    image: postgres:latest
+    container_name: hotel_scraper_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: hotel_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
