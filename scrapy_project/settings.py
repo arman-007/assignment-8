@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = "scrapy_project.spiders"
 #USER_AGENT = "scrapy_project (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "scrapy_project.pipelines.HotelPipeline": 300,
+   "scrapy_project.pipelines.HotelsPipeline": 300,
 }
 
 IMAGES_STORE = os.path.join(os.getcwd(), 'images')
@@ -96,23 +96,15 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 
-DOWNLOAD_HANDLERS = {
-    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-}
-PLAYWRIGHT_BROWSER_TYPE = "chromium"  # or "firefox", "webkit"
-
 LOG_FILE = "hotels.log"          # Log file name
 LOG_LEVEL = "INFO"               # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
-LOG_STDOUT = True                # Redirect stdout to log file (useful for print statements)
+# LOG_STDOUT = True                # Redirect stdout to log file (useful for print statements)
 
-PLAYWRIGHT_CONTEXTS = {
-    "default": {
-        "ignoreHTTPSErrors": True,
-        "javaScriptEnabled": True,
-        "bypassCSP": True,
-        "permissions": ["geolocation"],
-        "viewport": {"width": 1280, "height": 800},
-        "setDefaultTimeout": 60000,
-    }
+FEEDS = {
+    'random_3_hotels.json': {
+        'format': 'json',
+        'encoding': 'utf8',
+        'indent': 4,  # Pretty-print JSON
+        'overwrite': True,  # Overwrite the file if it exists
+    },
 }

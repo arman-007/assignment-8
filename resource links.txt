@@ -1,0 +1,6 @@
+https://www.zenrows.com/blog/scrapy-python#install-scrapy
+
+https://www.zenrows.com/blog/robots-txt-web-scraping#robots-txt-web-scraping
+
+https://www.zenrows.com/blog/web-scraping-best-practices#conclusion
+

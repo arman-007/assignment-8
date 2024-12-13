@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: hotel_scraper_web
-    command: ["scrapy", "crawl", "hotels"]
+    command: ["scrapy", "crawl", "hotel_details"]
     volumes:
       - .:/app
     depends_on:

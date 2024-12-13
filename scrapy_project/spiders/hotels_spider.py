@@ -1,4 +1,6 @@
 import scrapy
+import json
+import re
 
 
 class HotelsSpider(scrapy.Spider):
@@ -7,59 +9,30 @@ class HotelsSpider(scrapy.Spider):
         'https://uk.trip.com/hotels/?locale=en-GB&curr=GBP'
     ]
 
-    def start_requests(self):
+    def parse(self, response):
         """
-        Initiates requests to the specified URLs with Playwright enabled.
+        Extracts the JSON data stored in window.IBU_HOTEL and passes it to the pipeline.
         """
-        self.logger.info("Starting requests to scrape hotels from the specified URLs.")
-        for url in self.start_urls:
-            self.logger.info(f"Initiating request to {url}")
-            yield scrapy.Request(
-                url,
-                meta={
-                    "playwright": True,
-                    "playwright_context": "new",  # Use a new context for the browser
-                    "playwright_include_page": True,
-                },
-                callback=self.parse,
-                errback=self.handle_error
-            )
+        self.logger.info("Parsing the response to extract JSON data from window.IBU_HOTEL...")
 
-    async def parse(self, response):
-        """
-        Parses the response to extract hotel data.
-        """
-        self.logger.info("Parsing the response...")
-        page = response.meta.get("playwright_page")  # Access Playwright's page object
+        # Extract the JavaScript variable using a regular expression
+        script_data = re.search(r'window\.IBU_HOTEL\s*=\s*({.*?});', response.text)
 
-        # Wait for a specific selector to ensure content has loaded
-        await page.wait_for_selector("ul.m-swiper_list")
-        hotels = response.css('ul.m-swiper_list > li.m-swiper_itemWrap')
+        if script_data:
+            # Parse the JSON data
+            json_data_str = script_data.group(1)
+            self.logger.info("Successfully extracted JSON data from window.IBU_HOTEL.")
+            data = json.loads(json_data_str)
 
-        if not hotels:
-            self.logger.warning("No hotels found in the response. Verify the CSS selector or the page content.")
+            # Navigate to the required lists
+            htls_data = data.get("initData", {}).get("htlsData", {})
+            inbound_cities = htls_data.get("inboundCities", [])
+            outbound_cities = htls_data.get("outboundCities", [])
 
-        for hotel in hotels:
-            name = hotel.css('div.recommend-hotelcard_name::text').get()
-            hotel_count = hotel.css('div.recommend-hotelcard_count::text').get()
-            image_url = hotel.css('div.m-lazyImg__img::attr(src)').get()
-            link = hotel.css('a::attr(href)').get()
-
-            self.logger.debug(f"Extracted Hotel: {name}, Count: {hotel_count}, Image URL: {image_url}, Link: {link}")
-
+            # Yield raw data to the pipeline
             yield {
-                'name': name,
-                'hotel_count': hotel_count,
-                'image_url': image_url,
-                'link': link,
+                "inboundCities": inbound_cities,
+                "outboundCities": outbound_cities,
             }
-
-        # Close the Playwright page to release resources
-        await page.close()
-
-    def handle_error(self, failure):
-        """
-        Handle errors and log useful debug information.
-        """
-        self.logger.error(f"Request failed with error: {failure.value}")
-        self.logger.debug(f"Failure traceback: {failure.getTraceback()}")
+        else:
+            self.logger.warning("Could not find window.IBU_HOTEL in the response.")

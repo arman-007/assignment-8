@@ -1,0 +1,21 @@
+[
+{
+    "selectedCities": [
+        {
+            "id": 338,
+            "name": "London",
+            "count": 1112
+        },
+        {
+            "id": 73,
+            "name": "Singapore",
+            "count": 422
+        },
+        {
+            "id": 32,
+            "name": "Guangzhou",
+            "count": 5109
+        }
+    ]
+}
+]
