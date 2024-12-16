@@ -5,6 +5,9 @@ import re
 
 class HotelsSpider(scrapy.Spider):
     name = "hotels"
+    # custom_settings = {
+    #     'FEED_URI': './random_3_hotels.json',
+    # }
     start_urls = [
         'https://uk.trip.com/hotels/?locale=en-GB&curr=GBP'
     ]

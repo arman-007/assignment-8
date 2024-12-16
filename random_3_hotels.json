@@ -2,19 +2,19 @@
 {
     "selectedCities": [
         {
-            "id": 338,
-            "name": "London",
-            "count": 1112
+            "id": 733,
+            "name": "Dhaka",
+            "count": 173
         },
         {
-            "id": 73,
-            "name": "Singapore",
-            "count": 422
+            "id": 270226,
+            "name": "Sylhet Sadar Upazila",
+            "count": 33
         },
         {
-            "id": 32,
-            "name": "Guangzhou",
-            "count": 5109
+            "id": 2,
+            "name": "Shanghai",
+            "count": 7117
         }
     ]
 }
