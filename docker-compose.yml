@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: hotel_scraper_web
-    command: ["scrapy", "crawl", "hotel_details"]
+    command: ["scrapy", "crawl", "hotels_combined"]
     volumes:
       - .:/app
     depends_on:
@@ -22,6 +22,17 @@ services:
       POSTGRES_DB: hotel_db
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  tests:
+    build: .
+    container_name: hotel_scraper_tests
+    command: ["coverage", "run", "-m", "unittest", "discover", "tests"]
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://myuser:mypassword@db:5432/hotel_db
 
 volumes:
   db_data:
