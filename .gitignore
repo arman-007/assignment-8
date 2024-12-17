@@ -80,3 +80,6 @@ package-lock.json
 # Generated static files (if applicable)
 public/
 static/
+
+# Images folder
+images/

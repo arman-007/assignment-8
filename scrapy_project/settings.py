@@ -65,8 +65,8 @@ NEWSPIDER_MODULE = "scrapy_project.spiders"
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # "scrapy_project.pipelines.HotelsPipeline": 1,
-    "scrapy_project.pipelines.HotelImagesPipeline" : 2,
+    "scrapy_project.pipelines.HotelsPipeline": 1,
+    # "scrapy_project.pipelines.HotelImagesPipeline" : 2,
 }
 
 IMAGES_STORE = os.path.join(os.getcwd(), 'images')
@@ -103,12 +103,12 @@ LOG_LEVEL = "INFO"               # Log level: DEBUG, INFO, WARNING, ERROR, CRITI
 LOG_STDOUT = True                # Redirect stdout to log file (useful for print statements)
 
 # FEED_FORMAT = 'json'
-FEED_URI = 'output/random_3_hotels.json'
-FEEDS = {
-    'random_3_hotels.json': {
-        'format': 'json',
-        'encoding': 'utf8',
-        'indent': 4,  # Pretty-print JSON
-        'overwrite': False,  # Overwrite the file if it exists
-    },
-}
+# FEED_URI = 'output/random_3_hotels.json'
+# FEEDS = {
+#     'random_3_hotels.json': {
+#         'format': 'json',
+#         'encoding': 'utf8',
+#         'indent': 4,  # Pretty-print JSON
+#         'overwrite': False,  # Overwrite the file if it exists
+#     },
+# }
